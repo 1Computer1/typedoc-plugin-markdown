@@ -12,6 +12,7 @@ const typedoc_1 = require("typedoc");
 const converter_1 = require("typedoc/dist/lib/converter");
 const components_1 = require("typedoc/dist/lib/converter/components");
 const plugins_1 = require("typedoc/dist/lib/converter/plugins");
+const abstract_1 = require("typedoc/dist/lib/models/reflections/abstract");
 let MarkdownPlugin = (() => {
     let MarkdownPlugin = class MarkdownPlugin extends components_1.ConverterComponent {
         initialize() {
@@ -50,6 +51,12 @@ plugins_1.GroupPlugin.sortCallback = (a, b) => {
         }
         if (!a.flags.isStatic && b.flags.isStatic) {
             return -1;
+        }
+        if (a.kindOf(abstract_1.ReflectionKind.Module) && b.kindOf(abstract_1.ReflectionKind.Module)) {
+            if (a.name === b.name) {
+                return 0;
+            }
+            return a.name > b.name ? 1 : -1;
         }
         return 0;
     }
