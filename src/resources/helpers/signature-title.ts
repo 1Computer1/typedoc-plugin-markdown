@@ -27,11 +27,11 @@ export function signatureTitle(this: SignatureReflection, showSymbol: boolean) {
           if (param.flags.isRest) {
             paramsmd.push('...');
           }
-          paramsmd.push(`\`${param.name}`);
+          paramsmd.push(`${param.name}`);
           if (param.flags.isOptional) {
             paramsmd.push('?');
           }
-          paramsmd.push(`\`: ${type.call(param.type)}`);
+          paramsmd.push(`: ${type.call(param.type)}`);
           return paramsmd.join('');
         })
         .join(', ')

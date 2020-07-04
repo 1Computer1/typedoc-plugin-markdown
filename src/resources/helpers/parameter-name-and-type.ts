@@ -7,7 +7,7 @@ export function parameterNameAndType(this: ParameterReflection, displaySymbol = 
     md.push('*');
   }
   if (this.flags && !this.flags.isRest) {
-    md.push(this.flags.map(flag => `\`${flag}\` `));
+    md.push(this.flags.map(flag => `${flag} `));
   }
   md.push(`${this.flags.isRest ? '...' : ''} **${this.name}**`);
   if (this.type) {

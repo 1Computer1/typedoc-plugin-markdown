@@ -8,7 +8,7 @@ function parameterNameAndType(displaySymbol = true) {
         md.push('*');
     }
     if (this.flags && !this.flags.isRest) {
-        md.push(this.flags.map(flag => `\`${flag}\` `));
+        md.push(this.flags.map(flag => `${flag} `));
     }
     md.push(`${this.flags.isRest ? '...' : ''} **${this.name}**`);
     if (this.type) {

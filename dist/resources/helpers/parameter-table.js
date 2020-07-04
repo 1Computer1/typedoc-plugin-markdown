@@ -20,7 +20,7 @@ function parameterTable() {
         const isOptional = parameter.flags.includes('Optional');
         const typeOut = type_1.type.call(parameter.type);
         const row = [
-            `\`${parameter.flags.isRest ? '...' : ''}${parameter.name}${isOptional ? '?' : ''}\``,
+            `${parameter.flags.isRest ? '...' : ''}${parameter.name}${isOptional ? '?' : ''}`,
             typeOut ? typeOut.toString().replace(/\|/g, '&#124;') : '',
         ];
         if (hasDefaultValues) {
