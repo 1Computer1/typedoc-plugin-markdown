@@ -3,6 +3,7 @@ import { Renderer } from 'typedoc';
 import { Converter } from 'typedoc/dist/lib/converter';
 import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
 import { GroupPlugin } from 'typedoc/dist/lib/converter/plugins';
+import { Reflection, ReflectionKind } from 'typedoc/dist/lib/models/reflections/abstract';
 
 @Component({ name: 'markdown' })
 export class MarkdownPlugin extends ConverterComponent {
@@ -41,7 +42,7 @@ export class MarkdownPlugin extends ConverterComponent {
   }
 }
 
-GroupPlugin.sortCallback = (a: any, b: any): number => {
+GroupPlugin.sortCallback = (a: Reflection, b: Reflection): number => {
   const aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
   const bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
   if (aWeight === bWeight) {
@@ -51,7 +52,14 @@ GroupPlugin.sortCallback = (a: any, b: any): number => {
       if (!a.flags.isStatic && b.flags.isStatic) {
           return -1;
       }
-     
+
+      if (a.kindOf(ReflectionKind.Module) && b.kindOf(ReflectionKind.Module)) {
+        if (a.name === b.name) {
+          return 0;
+        }
+        return a.name > b.name ? 1 : -1;
+      }
+
       return 0;
   } else {
       return aWeight - bWeight;
