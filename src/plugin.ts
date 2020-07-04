@@ -2,6 +2,7 @@ import * as path from 'path';
 import { Renderer } from 'typedoc';
 import { Converter } from 'typedoc/dist/lib/converter';
 import { Component, ConverterComponent } from 'typedoc/dist/lib/converter/components';
+import { GroupPlugin } from 'typedoc/dist/lib/converter/plugins';
 
 @Component({ name: 'markdown' })
 export class MarkdownPlugin extends ConverterComponent {
@@ -37,5 +38,22 @@ export class MarkdownPlugin extends ConverterComponent {
     if (subThemes.includes(theme)) {
       options.setValue('theme', path.join(__dirname, 'subthemes', theme));
     }
+  }
+}
+
+GroupPlugin.sortCallback = (a: any, b: any): number => {
+  const aWeight = GroupPlugin.WEIGHTS.indexOf(a.kind);
+  const bWeight = GroupPlugin.WEIGHTS.indexOf(b.kind);
+  if (aWeight === bWeight) {
+      if (a.flags.isStatic && !b.flags.isStatic) {
+          return 1;
+      }
+      if (!a.flags.isStatic && b.flags.isStatic) {
+          return -1;
+      }
+     
+      return 0;
+  } else {
+      return aWeight - bWeight;
   }
 }
