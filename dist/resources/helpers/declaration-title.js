@@ -16,7 +16,7 @@ function declarationTitle(showSymbol) {
     }
     md.push(`**${this.name}**${isOptional ? '? ' : ''}:`);
     if (this.type) {
-        md.push(`*${type_1.type.call(this.type)}*`);
+        md.push(`${type_1.type.call(this.type)}`);
     }
     if (this.defaultValue) {
         md.push(`= ${this.defaultValue}`);

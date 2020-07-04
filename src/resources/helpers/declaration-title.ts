@@ -19,7 +19,7 @@ export function declarationTitle(this: DeclarationReflection, showSymbol: boolea
   md.push(`**${this.name}**${isOptional ? '? ' : ''}:`);
 
   if (this.type) {
-    md.push(`*${type.call(this.type)}*`);
+    md.push(`${type.call(this.type)}`);
   }
   if (this.defaultValue) {
     md.push(`= ${this.defaultValue}`);

@@ -38,7 +38,7 @@ function signatureTitle(showSymbol) {
         : '';
     md.push(`(${params})`);
     if (this.type) {
-        md.push(`: *${type_1.type.call(this.type)}*`);
+        md.push(`: ${type_1.type.call(this.type)}`);
     }
     return md.join('') + '\n';
 }

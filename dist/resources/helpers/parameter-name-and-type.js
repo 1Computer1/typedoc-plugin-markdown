@@ -12,7 +12,7 @@ function parameterNameAndType(displaySymbol = true) {
     }
     md.push(`${this.flags.isRest ? '...' : ''} **${this.name}**`);
     if (this.type) {
-        md.push(`: *${type_1.type.call(this.type)}*`);
+        md.push(`: ${type_1.type.call(this.type)}`);
     }
     if (this.defaultValue) {
         md.push(`= ${this.defaultValue}`);

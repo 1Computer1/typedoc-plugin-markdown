@@ -38,7 +38,7 @@ export function signatureTitle(this: SignatureReflection, showSymbol: boolean) {
     : '';
   md.push(`(${params})`);
   if (this.type) {
-    md.push(`: *${type.call(this.type)}*`);
+    md.push(`: ${type.call(this.type)}`);
   }
   return md.join('') + '\n';
 }
