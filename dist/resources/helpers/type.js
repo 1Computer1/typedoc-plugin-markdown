@@ -36,7 +36,7 @@ function getReferenceType(model) {
         ? [`[${model.reflection.name}](${theme_1.default.handlebars.helpers.relativeURL(model.reflection.url)})`]
         : [model.name];
     if (model.typeArguments) {
-        reflection.push(`‹${model.typeArguments.map(typeArgument => `${type.call(typeArgument)}`).join(', ')}›`);
+        reflection.push(`\\<${model.typeArguments.map(typeArgument => `${type.call(typeArgument)}`).join(', ')}\\>`);
     }
     return reflection.join('');
 }

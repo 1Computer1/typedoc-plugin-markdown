@@ -14,7 +14,7 @@
     "test": "jest",
     "test:updateSnapshot": "jest --updateSnapshot",
     "fixtures": "rm -rf ./test/fixtures && node ./tasks/fixtures.js",
-    "examples": "npm run build && rm -rf out && node ./tasks/link-plugin.js && npm run examples:html && npm run examples:md",
+    "examples": "npm run build && rm -rf out && node ./tasks/link-plugin.js && npm run examples:md",
     "examples:html": "typedoc --tsconfig ./test/stubs/tsconfig.json --options ./test/options.json --plugin none --out ./out/html",
     "examples:md": "typedoc --tsconfig ./test/stubs/tsconfig.json --options ./test/options.json --out ./out/md"
   },

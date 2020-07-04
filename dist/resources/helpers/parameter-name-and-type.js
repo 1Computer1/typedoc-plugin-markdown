@@ -5,7 +5,7 @@ const type_1 = require("./type");
 function parameterNameAndType(displaySymbol = true) {
     const md = [];
     if (displaySymbol) {
-        md.push('▪');
+        md.push('*');
     }
     if (this.flags && !this.flags.isRest) {
         md.push(this.flags.map(flag => `\`${flag}\` `));

@@ -4,7 +4,7 @@ import { type } from './type';
 export function parameterNameAndType(this: ParameterReflection, displaySymbol = true) {
   const md = [];
   if (displaySymbol) {
-    md.push('▪');
+    md.push('*');
   }
   if (this.flags && !this.flags.isRest) {
     md.push(this.flags.map(flag => `\`${flag}\` `));
