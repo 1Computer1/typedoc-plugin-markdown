@@ -3,10 +3,10 @@
 By default, the Markdown theme will attempt to render standard CommonMark, suitable for the majority of Markdown engines.
 It follows the same structure and file patterns as the default HTML theme (see [typedoc-default-themes](https://github.com/TypeStrong/typedoc-default-themes)).
 
-The plugin also comes packaged with some additional built-in themes and can also be extended with a custom theme.
+The plugin can be extended with a custom theme and also comes packaged with some additional built-in themes.
 
-- [Built-in themes](#built-in-themes)
 - [Writing a custom Markdown theme](#writing-a-custom-markdown-theme)
+- [Built-in themes](#built-in-themes)
 
 ## Writing a custom markdown theme
 
@@ -107,9 +107,10 @@ headerLinks: [
 
   - `.vuepress/api-sidebar.json` to be used with [sidebar](https://vuepress.vuejs.org/default-theme-config/#sidebar).
   - `.vuepress/api-sidebar-relative.json` to be used with [multiple sidebars](https://vuepress.vuejs.org/default-theme-config/#multiple-sidebars).
-  - `.vuepress/config.json`
 
 #### Examples
+
+May be used in `.vuepress/config.js` as follows:
 
 ```js
 const apiSideBar = require('./api-sidebar.json');
