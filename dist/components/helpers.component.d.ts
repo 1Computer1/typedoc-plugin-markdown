@@ -10,6 +10,7 @@ export declare class ContextAwareHelpersComponent extends ContextAwareRendererCo
     private inlineTag;
     private listInvalidSymbolLinks;
     private warnings;
+    private publicPath;
     initialize(): void;
     breadcrumb(model: Reflection, project: ProjectReflection, md: string[]): string;
     parseComments(text: string): string;

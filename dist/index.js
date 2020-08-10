@@ -42,6 +42,11 @@ module.exports = (PluginHost) => {
         type: declaration_1.ParameterType.Boolean,
     });
     app.options.addDeclaration({
+        help: 'Markdown Plugin: Specifies the base path that all links to be served from. If omitted all urls will be relative.',
+        name: 'publicPath',
+        type: declaration_1.ParameterType.String,
+    });
+    app.options.addDeclaration({
         help: 'Skips updating of the sidebar.json file when used with docusaurus or docusaurus2 theme',
         name: 'skipSidebar',
         type: declaration_1.ParameterType.Boolean,

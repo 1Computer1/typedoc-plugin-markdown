@@ -10,70 +10,67 @@ exports.FrontMatterComponent = void 0;
 const path = require("path");
 const components_1 = require("typedoc/dist/lib/output/components");
 const events_1 = require("typedoc/dist/lib/output/events");
-let FrontMatterComponent = (() => {
-    let FrontMatterComponent = class FrontMatterComponent extends components_1.ContextAwareRendererComponent {
-        initialize() {
-            super.initialize();
-            this.listenTo(this.application.renderer, {
-                [events_1.PageEvent.END]: this.onPageEnd,
-            });
-        }
-        onPageEnd(page) {
-            page.contents = page.contents.replace(/^/, this.getYamlString(page) + '\n\n').replace(/[\r\n]{3,}/g, '\n\n');
-        }
-        getYamlString(page) {
-            const yaml = `---
+let FrontMatterComponent = class FrontMatterComponent extends components_1.ContextAwareRendererComponent {
+    initialize() {
+        super.initialize();
+        this.listenTo(this.application.renderer, {
+            [events_1.PageEvent.END]: this.onPageEnd,
+        });
+    }
+    onPageEnd(page) {
+        page.contents = page.contents.replace(/^/, this.getYamlString(page) + '\n\n').replace(/[\r\n]{3,}/g, '\n\n');
+    }
+    getYamlString(page) {
+        const yaml = `---
 id: "${this.escapeYAMLString(this.getId(page))}"
 title: "${this.escapeYAMLString(this.getTitle(page))}"
 sidebar_label: "${this.escapeYAMLString(this.getLabel(page))}"
 ---`;
-            return yaml;
+        return yaml;
+    }
+    getId(page) {
+        return this.stripExt(page.url);
+    }
+    getTitle(page) {
+        if (page.url === page.project.url) {
+            return this.getProjectName(page);
         }
-        getId(page) {
-            return this.stripExt(page.url);
+        return this.getTitleFromNavigation(page, page.url) || this.getProjectName(page);
+    }
+    getLabel(page) {
+        if (this.stripExt(page.url) === 'globals') {
+            return 'Globals';
         }
-        getTitle(page) {
-            if (page.url === page.project.url) {
-                return this.getProjectName(page);
+        const title = this.getTitleFromNavigation(page, page.url);
+        return title ? title : !!page.project.readme ? 'README' : 'Globals';
+    }
+    escapeYAMLString(str) {
+        return str.replace(/([^\\])'/g, '$1\\\'');
+    }
+    getProjectName(page) {
+        return (page.project.packageInfo && page.project.packageInfo.label) || page.project.name;
+    }
+    getTitleFromNavigation(page, url) {
+        const item = this.findNavigationItem(page.navigation.children, url, null);
+        return item ? item.title : null;
+    }
+    findNavigationItem(navigation, url, item) {
+        navigation.forEach(navigationChild => {
+            if (navigationChild.url === url) {
+                item = navigationChild;
+                return;
             }
-            return this.getTitleFromNavigation(page, page.url) || this.getProjectName(page);
-        }
-        getLabel(page) {
-            if (this.stripExt(page.url) === 'globals') {
-                return 'Globals';
+            if (navigationChild.children) {
+                item = this.findNavigationItem(navigationChild.children, url, item);
             }
-            const title = this.getTitleFromNavigation(page, page.url);
-            return title ? title : !!page.project.readme ? 'README' : 'Globals';
-        }
-        escapeYAMLString(str) {
-            return str.replace(/([^\\])'/g, '$1\\\'');
-        }
-        getProjectName(page) {
-            return (page.project.packageInfo && page.project.packageInfo.label) || page.project.name;
-        }
-        getTitleFromNavigation(page, url) {
-            const item = this.findNavigationItem(page.navigation.children, url, null);
-            return item ? item.title : null;
-        }
-        findNavigationItem(navigation, url, item) {
-            navigation.forEach(navigationChild => {
-                if (navigationChild.url === url) {
-                    item = navigationChild;
-                    return;
-                }
-                if (navigationChild.children) {
-                    item = this.findNavigationItem(navigationChild.children, url, item);
-                }
-            });
-            return item;
-        }
-        stripExt(url) {
-            return path.basename(url, path.extname(url));
-        }
-    };
-    FrontMatterComponent = __decorate([
-        components_1.Component({ name: 'frontmatter' })
-    ], FrontMatterComponent);
-    return FrontMatterComponent;
-})();
+        });
+        return item;
+    }
+    stripExt(url) {
+        return path.basename(url, path.extname(url));
+    }
+};
+FrontMatterComponent = __decorate([
+    components_1.Component({ name: 'frontmatter' })
+], FrontMatterComponent);
 exports.FrontMatterComponent = FrontMatterComponent;

@@ -28,7 +28,7 @@ function type() {
     if (this instanceof types_1.TypeOperatorType || this instanceof types_1.ReflectionType) {
         return this;
     }
-    return this;
+    return this.toString().replace(/</g, '‹').replace(/>/g, '›');
 }
 exports.type = type;
 function getReferenceType(model) {
@@ -41,20 +41,21 @@ function getReferenceType(model) {
     return reflection.join('');
 }
 function getArrayType(model) {
-    return `${type.call(model.elementType)}[]`;
+    const arrayType = type.call(model.elementType);
+    return model.elementType.type === 'union' ? `(${arrayType})[]` : `${arrayType}[]`;
 }
 function getUnionType(model) {
-    return model.types.map(unionType => type.call(unionType)).join(' | ');
+    return model.types.map((unionType) => type.call(unionType)).join(' | ');
 }
 function getIntersectionType(model) {
-    return model.types.map(intersectionType => type.call(intersectionType)).join(' & ');
+    return model.types.map((intersectionType) => type.call(intersectionType)).join(' & ');
 }
 function getTupleType(model) {
-    return `[${model.elements.map(element => type.call(element)).join(', ')}]`;
+    return `[${model.elements.map((element) => type.call(element)).join(', ')}]`;
 }
 function getIntrinsicType(model) {
     return model.name;
 }
 function getStringLiteralType(model) {
-    return `"${model.value}"`;
+    return `\"${model.value}\"`;
 }

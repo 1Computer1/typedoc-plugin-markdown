@@ -13,34 +13,31 @@ const converter_1 = require("typedoc/dist/lib/converter");
 const components_1 = require("typedoc/dist/lib/converter/components");
 const plugins_1 = require("typedoc/dist/lib/converter/plugins");
 const abstract_1 = require("typedoc/dist/lib/models/reflections/abstract");
-let MarkdownPlugin = (() => {
-    let MarkdownPlugin = class MarkdownPlugin extends components_1.ConverterComponent {
-        initialize() {
-            this.listenTo(this.owner, {
-                [converter_1.Converter.EVENT_BEGIN]: this.onBegin,
-                [converter_1.Converter.EVENT_RESOLVE_BEGIN]: this.onResolveBegin,
-            });
+let MarkdownPlugin = class MarkdownPlugin extends components_1.ConverterComponent {
+    initialize() {
+        this.listenTo(this.owner, {
+            [converter_1.Converter.EVENT_BEGIN]: this.onBegin,
+            [converter_1.Converter.EVENT_RESOLVE_BEGIN]: this.onResolveBegin,
+        });
+    }
+    onBegin() {
+        typedoc_1.Renderer.getDefaultTheme = () => path.join(__dirname, 'resources');
+    }
+    onResolveBegin() {
+        const options = this.application.options;
+        const theme = options.getValue('platform') || options.getValue('theme');
+        if (theme === 'default' || theme === 'markdown') {
+            options.setValue('theme', path.join(__dirname));
         }
-        onBegin() {
-            typedoc_1.Renderer.getDefaultTheme = () => path.join(__dirname, 'resources');
+        const subThemes = ['docusaurus', 'docusaurus2', 'vuepress', 'gitbook', 'bitbucket'];
+        if (subThemes.includes(theme)) {
+            options.setValue('theme', path.join(__dirname, 'subthemes', theme));
         }
-        onResolveBegin() {
-            const options = this.application.options;
-            const theme = options.getValue('platform') || options.getValue('theme');
-            if (theme === 'default' || theme === 'markdown') {
-                options.setValue('theme', path.join(__dirname));
-            }
-            const subThemes = ['docusaurus', 'docusaurus2', 'vuepress', 'gitbook', 'bitbucket'];
-            if (subThemes.includes(theme)) {
-                options.setValue('theme', path.join(__dirname, 'subthemes', theme));
-            }
-        }
-    };
-    MarkdownPlugin = __decorate([
-        components_1.Component({ name: 'markdown' })
-    ], MarkdownPlugin);
-    return MarkdownPlugin;
-})();
+    }
+};
+MarkdownPlugin = __decorate([
+    components_1.Component({ name: 'markdown' })
+], MarkdownPlugin);
 exports.MarkdownPlugin = MarkdownPlugin;
 plugins_1.GroupPlugin.sortCallback = (a, b) => {
     const aWeight = plugins_1.GroupPlugin.WEIGHTS.indexOf(a.kind);
